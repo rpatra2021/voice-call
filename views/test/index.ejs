@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>voice Call</title>
+    </head>
+    <body>
+        <div id="main-streaming"></div>
+
+        <script src="http://localhost:4000/streaming/v1/voice-stream.js"></script>
+        <script>
+            const roomID = "my-aud-call";
+            const userID = Math.floor(Math.random() * 10000) + "";
+            const userName = "userName" + userID;
+            const pwcKit = PwcUIKitPrebuilt.create(roomID, userID, userName);
+            console.log("pwcKit", pwcKit);
+            pwcKit.joinRoom({
+                container: document.querySelector("#main-streaming"),
+            });
+            // pwcKit.mute();
+            // pwcKit.unmute();
+
+            // const reload = window.location.reload.bind(window.location);
+
+            // setTimeout(function() { 
+            //     pwcKit.endCall()
+            // }, 15000);
+
+            // setTimeout(function() { 
+            //     pwcKit.unmute()
+            // }, 10000);
+        </script>
+    </body>
+</html>
+
