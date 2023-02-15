@@ -6,6 +6,11 @@
         <title>voice Call</title>
     </head>
     <body>
+        <div>
+            Total Connected User: <span id="total-user-count">1</span>
+            <button style="float: right;" onclick="endCall();">End Call</button>
+            <button style="float: right;" id="mute-unmute-call" onclick="muteUnmuteCall();">Mute</button>
+        </div>
         <div id="main-streaming"></div>
 
         <script src="http://localhost:4000/streaming/v1/voice-stream.js"></script>
@@ -18,18 +23,29 @@
             pwcKit.joinRoom({
                 container: document.querySelector("#main-streaming"),
             });
-            // pwcKit.mute();
-            // pwcKit.unmute();
 
-            // const reload = window.location.reload.bind(window.location);
+            setInterval(function() { 
+                let totalUserCount = pwcKit.userCount();
+                document.getElementById('total-user-count').innerHTML=parseInt(totalUserCount)+1;
+            }, 1000);
 
-            // setTimeout(function() { 
-            //     pwcKit.endCall()
-            // }, 15000);
+            function endCall() {
+                pwcKit.endCall();
+                window.location.href = '/';
+            }
 
-            // setTimeout(function() { 
-            //     pwcKit.unmute()
-            // }, 10000);
+            var callStat = 1;
+            function muteUnmuteCall() {
+                if (callStat) {
+                    pwcKit.mute();
+                    callStat=0;
+                    document.getElementById('mute-unmute-call').innerHTML="Unmute";
+                } else {
+                    pwcKit.unmute();
+                    callStat = 1;
+                    document.getElementById('mute-unmute-call').innerHTML="Mute";
+                }
+            }
         </script>
     </body>
 </html>
