@@ -8,7 +8,15 @@
 </head>
 <body>
     <div>
+        <input autocomplete="off" type="text" id="userName" placeholder="User Name">
+        <input autocomplete="off" type="text" id="roomId" placeholder="Room Id">
+        <button onclick = "joinCall();">Join Call</button><br><br>
+        <button onclick = "generateRoom();">Generate Room</button>
         <button onclick = "initializeTestCall();" style="float: right;">Test Call</button>
+    </div>
+    <br>
+    <hr>
+    <div>
         <h1>PwC voice system integration process</h1>
         <div>
             <pre>
@@ -51,6 +59,34 @@
 <script>
     function initializeTestCall() {
         window.location.href = '/test';
+    }
+
+    function joinCall() {
+        const userName = document.getElementById("userName").value;
+        if (!userName) {
+            alert("please enter username");
+            return;
+        }
+        const roomId = document.getElementById("roomId").value;
+        if (!roomId) {
+            alert("please enter room id");
+            return;
+        }
+        window.location.href = '/test?r='+roomId+"&u="+userName;
+    }
+
+    function generateRoom() {
+        document.getElementById("roomId").value = makeRoomId(3) + "-" + makeRoomId(4) + "-" + makeRoomId(3);
+    }
+
+    function makeRoomId(length) {
+        var result           = '';
+        var characters       = 'ABCDabcdefghijklmnopqrstuvwxyz';
+        var charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
     }
 </script>
 </html>

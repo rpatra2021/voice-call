@@ -6,28 +6,56 @@
         <title>voice Call</title>
     </head>
     <body>
-        <div>
-            Total Connected User: <span id="total-user-count">1</span>
+        <div style="text-align: center;">
+            <span style="float: left;">
+                Total Connected User: <span id="total-user-count">1</span>
+            </span>
+            <span>
+                Room Id: <span id="display-room-id"></span>
+            </span>
+            
             <button style="float: right;" onclick="endCall();">End Call</button>
             <button style="float: right;" id="mute-unmute-call" onclick="muteUnmuteCall();">Mute</button>
         </div>
+        <div id="call-usr-list"></div>
         <div id="main-streaming"></div>
-
-        <script src="http://localhost:4000/streaming/v1/voice-stream.js"></script>
+        <script src="http://localhost:4000/streaming/v2/voice-stream.js"></script>
         <script>
-            const roomID = "my-aud-call";
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
             const userID = Math.floor(Math.random() * 10000) + "";
-            const userName = "userName" + userID;
+            const roomID = params.r || "my-aud-call";
+            document.getElementById('display-room-id').innerHTML=roomID;
+
+            const userName = params.u || "userName" + userID;
             const pwcKit = PwcUIKitPrebuilt.create(roomID, userID, userName);
-            console.log("pwcKit", pwcKit);
+            console.log(roomID, userID, userName);
             pwcKit.joinRoom({
                 container: document.querySelector("#main-streaming"),
             });
+            
+            // setTimeout(function() { 
+            //     pwcKit.userList()
+            // }, 10000);
 
             setInterval(function() { 
                 let totalUserCount = pwcKit.userCount();
                 document.getElementById('total-user-count').innerHTML=parseInt(totalUserCount)+1;
-            }, 1000);
+                userListData();
+            }, 3000);
+
+            function userListData() {
+                let userList = pwcKit.userList();
+                var result = Object.keys(userList).map((key) => [Number(key), userList[key]]);
+                let htmlList = "<ol>";
+                for(let uData of result){
+                    console.log(uData[1].userName);
+                    htmlList +="<li>"+uData[1].userName+"</li>"
+                }
+                htmlList+="</ol>";
+                document.getElementById('call-usr-list').innerHTML=htmlList;
+            }
 
             function endCall() {
                 pwcKit.endCall();
