@@ -35,22 +35,17 @@
                 container: document.querySelector("#main-streaming"),
             });
             
-            // setTimeout(function() { 
-            //     pwcKit.userList()
-            // }, 10000);
-
-            setInterval(function() { 
-                let totalUserCount = pwcKit.userCount();
-                document.getElementById('total-user-count').innerHTML=parseInt(totalUserCount)+1;
+            setInterval(function() {
                 userListData();
-            }, 3000);
+            }, 2000);
 
             function userListData() {
                 let userList = pwcKit.userList();
                 var result = Object.keys(userList).map((key) => [Number(key), userList[key]]);
+                document.getElementById('total-user-count').innerHTML=parseInt(result.length)+1;
                 let htmlList = "<ol>";
+                htmlList +="<li>"+userName+" (me)</li>"
                 for(let uData of result){
-                    console.log(uData[1].userName);
                     htmlList +="<li>"+uData[1].userName+"</li>"
                 }
                 htmlList+="</ol>";

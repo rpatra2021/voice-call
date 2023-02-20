@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PwC Voice System</title>
+</head>
+<body>
+    <div>
+        <h1>PwC voice system integration process</h1>
+        <div>
+            <pre>
+                <code>
+                    &lt;body>
+                        &lt;div id="main-streaming">&lt;/div>
+                    &lt;/body>
+
+                    <h3>CDN link</h3>
+                    &lt;script src="https://pwcaudiocall01.azurewebsites.net/streaming/v2/voice-stream.js">&lt;/script>
+
+                    <h3>Initialization</h3>
+                    &lt;script
+                        const roomID = "my-aud-call";
+                        const userID = Math.floor(Math.random() * 10000) + "";
+                        const userName = "userName" + userID;
+
+                        const pwcAudio = PwcUIKitPrebuilt.create(roomID, userID, userName);
+                        pwcAudio.joinRoom({
+                            container: document.querySelector("#main-streaming"),
+                        });
+                    &lt;/script>
+                    <h3>For call mute</h3>
+                    &lt;script
+                        pwcAudio.mute();
+                    &lt;/script>
+                    <h3>For call unmute</h3>
+                    &lt;script
+                        pwcAudio.unmute();
+                    &lt;/script>
+                    <h3>For call End</h3>
+                    &lt;script
+                        pwcAudio.endCall();
+                    &lt;/script>
+                </code>
+            </pre>
+        </div>
+    </div>
+</body>
+</html>

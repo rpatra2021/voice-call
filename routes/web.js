@@ -7,7 +7,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/test', function(req, res, next) {
-  res.render('test/index');
+  res.render('pwc/test/index');
+});
+
+router.get('/pwc-voice', function(req, res, next) {
+  res.render('pwc/integration');
 });
 
 module.exports = router;
