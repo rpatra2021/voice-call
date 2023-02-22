@@ -1,0 +1,75 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>voice Call</title>
+    </head>
+    <body>
+        <div style="text-align: center;">
+            <span style="float: left;">
+                Total Connected User: <span id="total-user-count">1</span>
+            </span>
+            <span>
+                Room Id: <span id="display-room-id"></span>
+            </span>
+            
+            <button style="float: right;" onclick="endCall();">End Call</button>
+            <button style="float: right;" id="mute-unmute-call" onclick="muteUnmuteCall();">Mute</button>
+        </div>
+        <div id="call-usr-list"></div>
+        <div id="main-streaming"></div>
+        <script src="http://localhost:4000/streaming/v3/voice-stream.js"></script>
+        <script>
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
+            const userID = Math.floor(Math.random() * 10000) + "";
+            const roomID = params.r || "my-aud-call";
+            document.getElementById('display-room-id').innerHTML=roomID;
+            const userName = params.u || "userName" + userID;
+            const kitToken = PwcUIKitPrebuilt.generateKitToken(roomID, userID, userName);
+            const pwcKit = PwcUIKitPrebuilt.create(kitToken);
+            pwcKit.joinRoom({
+                container: document.querySelector("#main-streaming"),
+                turnOnMicrophoneWhenJoining: true,
+            });
+            
+            setInterval(function() {
+                userListData();
+            }, 2000);
+
+            function userListData() {
+                let userList = pwcKit.userList();
+                var result = Object.keys(userList).map((key) => [Number(key), userList[key]]);
+                document.getElementById('total-user-count').innerHTML=parseInt(result.length)+1;
+                let htmlList = "<ol>";
+                htmlList +="<li>"+userName+" (me)</li>"
+                for(let uData of result){
+                    htmlList +="<li>"+uData[1].userName+"</li>"
+                }
+                htmlList+="</ol>";
+                document.getElementById('call-usr-list').innerHTML=htmlList;
+            }
+
+            function endCall() {
+                pwcKit.endCall();
+                window.location.href = '/';
+            }
+
+            var callStat = 1;
+            function muteUnmuteCall() {
+                if (callStat) {
+                    pwcKit.mute();
+                    callStat=0;
+                    document.getElementById('mute-unmute-call').innerHTML="Unmute";
+                } else {
+                    pwcKit.unmute();
+                    callStat = 1;
+                    document.getElementById('mute-unmute-call').innerHTML="Mute";
+                }
+            }
+        </script>
+    </body>
+</html>
+

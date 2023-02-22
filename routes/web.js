@@ -6,8 +6,12 @@ router.get('/', function(req, res, next) {
   res.render('welcome');
 });
 
-router.get('/test', function(req, res, next) {
-  res.render('pwc/test/index');
+router.get('/v2-test', function(req, res, next) {
+  res.render('pwc/call/v2/index');
+});
+
+router.get('/v3-test', function(req, res, next) {
+  res.render('pwc/call/v3/index');
 });
 
 router.get('/pwc-voice', function(req, res, next) {

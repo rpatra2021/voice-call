@@ -21,9 +21,9 @@
     </div>
 </body>
 <script>
-
+    const callBaseUrl='/v3-test';
     function initializeTestCall() {
-        window.location.href = '/test';
+        window.location.href = callBaseUrl;
     }
 
     function joinCall() {
@@ -37,7 +37,7 @@
             alert("please enter room id");
             return;
         }
-        window.location.href = '/test?r='+roomId+"&u="+userName;
+        window.location.href = callBaseUrl+'?r='+roomId+"&u="+userName;
     }
 
     function generateRoom() {
