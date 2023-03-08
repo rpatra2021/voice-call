@@ -1,3 +1,4 @@
+require('module-alias/register');
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -5,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var webRouter = require('./routes/web');
+var apiRouter = require('./routes/api');
 
 var app = express();
 
@@ -19,6 +21,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', webRouter);
+app.use('/api', apiRouter);
 //===========================CORS support==============================
 app.use(function (req, res, next) {
   req.setEncoding('utf8');
