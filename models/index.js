@@ -21,7 +21,7 @@ sequelize.authenticate().then(() => {
   console.error("Unable to connected database", err);
 });
 
-sequelize.sync({alter: true});
+// sequelize.sync({alter: true});
 
 fs
   .readdirSync(__dirname)

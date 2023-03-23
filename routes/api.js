@@ -10,5 +10,6 @@ const HOME = require('@controller/homeController');
 
 router.post('/call-start', HOME.callStart);
 router.post('/call-end', HOME.callEnd);
+router.get('/call-history', HOME.callHistory);
 
 module.exports = router;

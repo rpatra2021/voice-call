@@ -42,6 +42,12 @@
                     &lt;script
                         pwcAudio.endCall();
                     &lt;/script>
+
+                    &lt;script
+                        pwcAudio.getCallHistory().then((callHistory)=>{
+                            console.log("callHistory", callHistory);
+                        });
+                    &lt;/script>
                 </code>
             </pre>
         </div>
